@@ -1,0 +1,157 @@
+import { useState } from "react"
+import "./Questionario.css"
+
+function Questionario() {
+
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    idade: "",
+    saude: "",
+    habitos: [],
+    frequencia: "",
+    comentarios: ""
+  })
+
+  function handleChange(e) {
+    const { name, value, type, checked } = e.target
+
+    if (type === "checkbox") {
+      let novosHabitos = [...formData.habitos]
+
+      if (checked) {
+        novosHabitos.push(value)
+      } else {
+        novosHabitos = novosHabitos.filter(h => h !== value)
+      }
+
+      setFormData({ ...formData, habitos: novosHabitos })
+    } else {
+      setFormData({ ...formData, [name]: value })
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    console.log(formData)
+    alert("Formulário enviado!")
+  }
+
+  return (
+    <div>
+
+      <h1 id="title">Formulário de Hábitos Saudáveis</h1>
+
+      <p id="description">
+        Este formulário vai te ajudar a melhorar seus hábitos diários.
+      </p>
+
+      <form id="survey-form" onSubmit={handleSubmit}>
+
+        <div className="form-group">
+          <label htmlFor="nome">Nome:</label>
+          <input
+            type="text"
+            name="nome"
+            placeholder="Digite seu nome"
+            required
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Digite seu email"
+            required
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Idade:</label>
+          <input
+            type="number"
+            name="idade"
+            min="1"
+            max="120"
+            placeholder="Digite sua idade"
+            required
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Como você avalia sua saúde?</label>
+          <select name="saude" onChange={handleChange}>
+            <option value="">Selecione</option>
+            <option value="boa">Boa</option>
+            <option value="regular">Regular</option>
+            <option value="ruim">Ruim</option>
+          </select>
+        </div>
+
+        <p>Quais hábitos você costuma ter?</p>
+
+        <label>
+          <input type="checkbox" value="exercicio" onChange={handleChange}/>
+          Prática de exercícios
+        </label>
+
+        <label>
+          <input type="checkbox" value="alimentacao" onChange={handleChange}/>
+          Alimentação saudável
+        </label>
+
+        <label>
+          <input type="checkbox" value="agua" onChange={handleChange}/>
+          Consumo de água
+        </label>
+
+        <label>
+          <input type="checkbox" value="sono" onChange={handleChange}/>
+          Boa qualidade de sono
+        </label>
+
+        <p>Com que frequência você pratica exercícios?</p>
+
+        <label>
+          <input type="radio" name="frequencia" value="0" onChange={handleChange}/>
+          0 vezes
+        </label>
+
+        <label>
+          <input type="radio" name="frequencia" value="1-2" onChange={handleChange}/>
+          1 - 2 vezes
+        </label>
+
+        <label>
+          <input type="radio" name="frequencia" value="3-4" onChange={handleChange}/>
+          3 - 4 vezes
+        </label>
+
+        <label>
+          <input type="radio" name="frequencia" value="5-6" onChange={handleChange}/>
+          5 - 6 vezes
+        </label>
+
+        <div className="form-group">
+          <label>Comentários:</label>
+          <textarea
+            name="comentarios"
+            placeholder="Escreva aqui..."
+            onChange={handleChange}
+          />
+        </div>
+
+        <button className="submit-btn">
+          Enviar
+        </button>
+
+      </form>
+
+    </div>
+  )
+}
